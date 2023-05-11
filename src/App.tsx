@@ -4,7 +4,7 @@ import { formatBalance, formatChainAsNum } from './utils'
 import detectEthereumProvider from '@metamask/detect-provider'
 import Web3 from 'web3'
 import { AbiItem } from 'web3-utils'
-import SystemContractABI from './abi/systemContract'
+import SystemContractABI from './abi/SystemContract'
 import WasmMSGHelperABI from './abi/WasmMSGHelper'
 import WasmQueryHelperABI from './abi/WasmQueryHelper'
 import Contract from 'web3-eth-contract'
@@ -22,7 +22,7 @@ const App = () => {
   const [errorMessage, setErrorMessage] = useState("")     /* New */
 
   const [addDelta, setAddDelta] = useState("100");
-  const [subtractDelta, setSubtractDelta] = useState(1);
+  // const [subtractDelta, setSubtractDelta] = useState(1);
   const [loading, setLoading] = useState(false);
   // evm wasm related
   // 1. deploy
@@ -53,7 +53,8 @@ const App = () => {
       }
     }
 
-    const refreshChain = (chainId: any) => {
+    const refreshChain = () => {
+      // chainId: any
       window.location.reload();
       // setWallet((wallet) => ({ ...wallet, chainId }))
     }
@@ -160,8 +161,8 @@ const App = () => {
     async function getWasmReceipt(txReceipt: TransactionReceipt) {
       let wasmResult = txReceipt.logs[0].data.slice(2)
       let json = Buffer.from(wasmResult, 'hex').toString('utf-8');
-      json = JSON.parse(json)
-      return json[0].events;
+      let final_json = JSON.parse(json)
+      return final_json[0].events;
     }
 
     window.ethereum
